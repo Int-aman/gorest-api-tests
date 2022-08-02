@@ -1,5 +1,6 @@
 package com.ultralesson.gorestapitests;
 
+import io.restassured.http.ContentType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -19,5 +20,23 @@ public class SampleTests {
                 .then()
                 .statusCode(200)
                 .log().body();
+    }
+    @Test
+    public void shouldCreateUser(){
+        given()
+                    .accept(ContentType.JSON)
+                    .contentType(ContentType.JSON)
+                    .header("Authorization","Bearer 66d34c119ac32cbdec43d00fe589f63d3cf04985c015ca42f724735d8c1afcbf")
+                    .body("{\n" +
+                            "    \"name\": \"Tenali Ramakrishna\",\n" +
+                            "    \"gender\": \"male\",\n" +
+                            "    \"email\": \"tenali.ramakrishna7@yahoo.com\",\n" +
+                            "    \"status\": \"active\"\n" +
+                            "}")
+                .when()
+                    .post("https://gorest.co.in/public/v2/users")
+                .then()
+                    .log().body()
+                    .statusCode(201);
     }
 }
