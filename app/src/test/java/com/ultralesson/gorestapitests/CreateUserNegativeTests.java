@@ -2,9 +2,16 @@ package com.ultralesson.gorestapitests;
 
 import com.ultralesson.gorestapitests.Users.UsersClient;
 import org.hamcrest.Matchers;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class CreateUserNegativeTests {
+    private UsersClient usersClient;
+
+    @BeforeClass
+    public void beforeClass(){
+        usersClient = new UsersClient();
+    }
     @Test
     public void shouldNotAllowToCreateUserWithInvalidEmail(){
         //Arrange
@@ -15,7 +22,7 @@ public class CreateUserNegativeTests {
                 "    \"status\": \"active\"\n" +
                 "}";
         //Act
-        new UsersClient().createUser(body)
+        usersClient.createUser(body)
                 .then()
                 .log().body()
                 //Assert
