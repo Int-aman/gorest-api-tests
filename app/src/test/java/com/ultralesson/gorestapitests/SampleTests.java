@@ -35,7 +35,7 @@ public class SampleTests {
                     .body("{\n" +
                             "    \"name\": \"Tenali Ramakrishna\",\n" +
                             "    \"gender\": \"male\",\n" +
-                            "    \"email\": \"tenali.ramakrishna11@yahoo.com\",\n" +
+                            "    \"email\": \"tenali.ramakrishna14@yahoo.com\",\n" +
                             "    \"status\": \"active\"\n" +
                             "}")
                 .when()
@@ -44,7 +44,7 @@ public class SampleTests {
                     .log().body()
                     .statusCode(201)
                 .body("id", Matchers.notNullValue())
-                .body("email", Matchers.equalTo("tenali.ramakrishna11@yahoo.com"))
+                .body("email", Matchers.equalTo("tenali.ramakrishna14@yahoo.com"))
                 .body("name", Matchers.equalTo("Tenali Ramakrishna"));
     }
 }
