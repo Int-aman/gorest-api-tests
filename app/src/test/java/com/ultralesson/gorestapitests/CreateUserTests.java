@@ -2,11 +2,15 @@ package com.ultralesson.gorestapitests;
 
 import com.ultralesson.gorestapitests.Users.UsersClient;
 import com.ultralesson.gorestapitests.Users.create.CreateUserRequestBody;
+import com.ultralesson.gorestapitests.Users.create.response.CreateUserResponse;
 import org.hamcrest.Matchers;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.UUID;
+
+import static org.testng.Assert.*;
 
 public class CreateUserTests {
 
@@ -19,6 +23,7 @@ public class CreateUserTests {
     @Test
     public void shouldMaleCreateUser(){
         //Arrange
+
         String email = String.format("%s@gmail.com", UUID.randomUUID());
 
         CreateUserRequestBody requestBody = CreateUserRequestBody.builder()
@@ -26,14 +31,16 @@ public class CreateUserTests {
                 .email(email).status("active").build();
 
         //Act
-        usersClient.createUser(requestBody)
-                .then()
-                    .log().body()
-                    .statusCode(201)
+
+        CreateUserResponse createUserResponse = usersClient.createUser(requestBody);
+
         //Assert
-                .body("data.id", Matchers.notNullValue())
-                .body("data.email", Matchers.equalTo(email))
-                .body("data.name", Matchers.equalTo("Rama Ramakrishna"));
+
+        assertEquals(createUserResponse.getStatusCode(), 201);
+        assertNotNull(createUserResponse.getData().getId());
+        assertEquals(createUserResponse.getData().getEmail(), requestBody.getEmail());
+        assertEquals(createUserResponse.getData().getName(), requestBody.getName());
+
     }
 
     @Test
@@ -46,13 +53,13 @@ public class CreateUserTests {
                 .name("Priyanka Singh").gender("female")
                 .email(email).status("active").build();
         //Act
-        usersClient.createUser(requestBody)
-                .then()
-                .log().body()
-                .statusCode(201)
-                .body("data.id", Matchers.notNullValue())
-                .body("data.email", Matchers.equalTo(email))
-                .body("data.name", Matchers.equalTo("Priyanka Singh"));
+        CreateUserResponse createUserResponse = usersClient.createUser(requestBody);
+
+        //Assert
+        assertEquals(createUserResponse.getStatusCode(), 201);
+        assertNotNull(createUserResponse.getData().getId());
+        assertEquals(createUserResponse.getData().getEmail(), requestBody.getEmail());
+        assertEquals(createUserResponse.getData().getName(), requestBody.getName());
     }
 
 }

@@ -20,12 +20,12 @@ public class CreateUserNegativeTests {
                 .name("Priyanka Singh").gender("female")
                 .email("p.singh1yahoo.com").status("active").build();
         //Act
-        usersClient.createUser(requestBody)
-                .then()
-                .log().body()
+        usersClient.create(requestBody)
+
         //Assert
-                .statusCode(422)
-                .body("data", Matchers.hasItem(Matchers.hasEntry("field", "email")))
-                .body("data", Matchers.hasItem(Matchers.hasEntry("message", "is invalid")));
+                .then()
+                    .statusCode(422)
+                    .body("data", Matchers.hasItem(Matchers.hasEntry("field", "email")))
+                    .body("data", Matchers.hasItem(Matchers.hasEntry("message", "is invalid")));
     }
 }

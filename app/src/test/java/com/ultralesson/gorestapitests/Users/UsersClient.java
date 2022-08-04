@@ -1,14 +1,22 @@
 package com.ultralesson.gorestapitests.Users;
 
 import com.ultralesson.gorestapitests.Users.create.CreateUserRequestBody;
+import com.ultralesson.gorestapitests.Users.create.response.CreateUserResponse;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
 public class UsersClient {
-    public Response createUser(CreateUserRequestBody body) {
-        return
+    public CreateUserResponse createUser(CreateUserRequestBody body) {
+        Response response = create(body);
+        CreateUserResponse createUserResponse = response.as(CreateUserResponse.class);
+        createUserResponse.setStatusCode(response.statusCode());
+        return createUserResponse;
+    }
+
+    public Response create(CreateUserRequestBody body) {
+        Response response =
                 given()
                     .accept(ContentType.JSON)
                     .contentType(ContentType.JSON)
@@ -16,6 +24,12 @@ public class UsersClient {
                     .body(body)
                 .when()
                     .post("https://gorest.co.in/public/v1/users");
+
+        response
+                .then()
+                    .log().body();
+        return
+                response;
     }
 
     public Response getAllUsers() {
