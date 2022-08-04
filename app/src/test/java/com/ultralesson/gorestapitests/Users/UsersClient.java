@@ -3,6 +3,7 @@ package com.ultralesson.gorestapitests.Users;
 import com.ultralesson.gorestapitests.Users.create.CreateUserRequestBody;
 import com.ultralesson.gorestapitests.Users.create.response.CreateUserErrorResponse;
 import com.ultralesson.gorestapitests.Users.create.response.CreateUserResponse;
+import com.ultralesson.gorestapitests.Users.getAll.GetAllUsersResponse;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
@@ -40,9 +41,19 @@ public class UsersClient {
                 response;
     }
 
-    public Response getAllUsers() {
-        return given()
+    public GetAllUsersResponse getAllUsers() {
+        Response response = given()
                 .when()
-                    .get("https://gorest.co.in/public/v1/users");
+                .get("https://gorest.co.in/public/v1/users");
+        response
+                .then()
+                    .log().body();
+
+        int statusCode = response.statusCode();
+
+        GetAllUsersResponse getAllUsersResponse = response.as(GetAllUsersResponse.class);
+        getAllUsersResponse.setStatusCode(statusCode);
+
+        return getAllUsersResponse;
     }
 }

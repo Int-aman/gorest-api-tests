@@ -1,9 +1,12 @@
 package com.ultralesson.gorestapitests;
 
 import com.ultralesson.gorestapitests.Users.UsersClient;
-import org.hamcrest.Matchers;
+import com.ultralesson.gorestapitests.Users.getAll.GetAllUsersResponse;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.*;
 
 public class GetAllUserTests {
     // 1.Arrange
@@ -19,12 +22,11 @@ public class GetAllUserTests {
     //BDD syntax
 
     //2.Act
-        usersClient.getAllUsers()
-                .then()
+        GetAllUsersResponse getAllUsersResponse = usersClient.getAllUsers();
+
     // 3.Assert
-                    .statusCode(200)
-                    .body("data",Matchers.hasSize(10)) //limit changed
-                    .body("data",Matchers.hasItem(Matchers.hasEntry("gender","male")))
-                    .log().body();
+        assertEquals(getAllUsersResponse.getStatusCode(), 200);
+        assertEquals(getAllUsersResponse.getDataList().size(), 10);
+        assertTrue(getAllUsersResponse.hasMaleUser());
     }
 }
