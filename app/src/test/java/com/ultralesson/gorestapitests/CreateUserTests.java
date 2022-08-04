@@ -3,8 +3,6 @@ package com.ultralesson.gorestapitests;
 import com.ultralesson.gorestapitests.Users.UsersClient;
 import com.ultralesson.gorestapitests.Users.create.CreateUserRequestBody;
 import com.ultralesson.gorestapitests.Users.create.response.CreateUserResponse;
-import org.hamcrest.Matchers;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -22,8 +20,8 @@ public class CreateUserTests {
     }
     @Test
     public void shouldMaleCreateUser(){
-        //Arrange
 
+        //Arrange
         String email = String.format("%s@gmail.com", UUID.randomUUID());
 
         CreateUserRequestBody requestBody = CreateUserRequestBody.builder()
@@ -31,16 +29,10 @@ public class CreateUserTests {
                 .email(email).status("active").build();
 
         //Act
-
         CreateUserResponse createUserResponse = usersClient.createUser(requestBody);
 
         //Assert
-
-        assertEquals(createUserResponse.getStatusCode(), 201);
-        assertNotNull(createUserResponse.getData().getId());
-        assertEquals(createUserResponse.getData().getEmail(), requestBody.getEmail());
-        assertEquals(createUserResponse.getData().getName(), requestBody.getName());
-
+        createUserResponse.assertUser(requestBody);
     }
 
     @Test
@@ -56,10 +48,8 @@ public class CreateUserTests {
         CreateUserResponse createUserResponse = usersClient.createUser(requestBody);
 
         //Assert
-        assertEquals(createUserResponse.getStatusCode(), 201);
-        assertNotNull(createUserResponse.getData().getId());
-        assertEquals(createUserResponse.getData().getEmail(), requestBody.getEmail());
-        assertEquals(createUserResponse.getData().getName(), requestBody.getName());
+        createUserResponse.assertUser(requestBody);
+
     }
 
 }
