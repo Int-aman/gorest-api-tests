@@ -1,6 +1,7 @@
 package com.ultralesson.gorestapitests.Users;
 
 import com.ultralesson.gorestapitests.Users.create.CreateUserRequestBody;
+import com.ultralesson.gorestapitests.Users.create.response.CreateUserErrorResponse;
 import com.ultralesson.gorestapitests.Users.create.response.CreateUserResponse;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -13,6 +14,13 @@ public class UsersClient {
         CreateUserResponse createUserResponse = response.as(CreateUserResponse.class);
         createUserResponse.setStatusCode(response.statusCode());
         return createUserResponse;
+    }
+
+    public CreateUserErrorResponse createUserExpectingResponse(CreateUserRequestBody body){
+        Response response = create(body);
+        CreateUserErrorResponse errorResponse = response.as(CreateUserErrorResponse.class);
+        errorResponse.setStatusCode(response.statusCode());
+        return errorResponse;
     }
 
     public Response create(CreateUserRequestBody body) {
