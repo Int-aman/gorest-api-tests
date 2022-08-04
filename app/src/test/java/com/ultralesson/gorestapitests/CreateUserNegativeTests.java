@@ -3,8 +3,6 @@ package com.ultralesson.gorestapitests;
 import com.ultralesson.gorestapitests.Users.UsersClient;
 import com.ultralesson.gorestapitests.Users.create.CreateUserRequestBody;
 import com.ultralesson.gorestapitests.Users.create.response.CreateUserErrorResponse;
-import org.hamcrest.Matchers;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 

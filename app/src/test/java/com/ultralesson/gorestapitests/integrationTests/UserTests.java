@@ -1,4 +1,4 @@
-package com.ultralesson.gorestapitests;
+package com.ultralesson.gorestapitests.integrationTests;
 
 import com.ultralesson.gorestapitests.Users.UsersClient;
 import com.ultralesson.gorestapitests.Users.create.CreateUserRequestBody;
@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import java.util.UUID;
 
-public class CreateUserTests {
+public class UserTests {
 
     private UsersClient usersClient;
 
@@ -17,7 +17,7 @@ public class CreateUserTests {
         usersClient = new UsersClient();
     }
     @Test
-    public void shouldMaleCreateUser(){
+    public void shouldCreateAndGetUser(){
 
         //Arrange
         String email = String.format("%s@gmail.com", UUID.randomUUID());
@@ -27,27 +27,10 @@ public class CreateUserTests {
                 .email(email).status("active").build();
 
         //Act
-        CreateUserResponse createUserResponse = usersClient.createUser(requestBody);
+        int id = usersClient.createUser(requestBody).getData().getId();
 
         //Assert
-        createUserResponse.assertUser(requestBody);
-    }
-
-    @Test
-    public void shouldFemaleCreateUser(){
-
-        //Arrange
-        String email = String.format("%s@gmail.com", UUID.randomUUID());
-
-        CreateUserRequestBody requestBody = CreateUserRequestBody.builder()
-                .name("Priyanka Singh").gender("female")
-                .email(email).status("active").build();
-        //Act
-        CreateUserResponse createUserResponse = usersClient.createUser(requestBody);
-
-        //Assert
-        createUserResponse.assertUser(requestBody);
-
+        usersClient.getUser(id).assertUser(requestBody);
     }
 
 }
