@@ -1,6 +1,7 @@
 package com.ultralesson.gorestapitests;
 
 import com.ultralesson.gorestapitests.Users.UsersClient;
+import com.ultralesson.gorestapitests.Users.create.CreateUserRequestBody;
 import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -17,42 +18,44 @@ public class CreateUserTests {
     }
     @Test
     public void shouldMaleCreateUser(){
-        String email = String.format("%s@gmail.com", UUID.randomUUID());
         //Arrange
-        String body = String.format("{\n" +
-                "    \"name\": \"Tenali Ramakrishna\",\n" +
-                "    \"gender\": \"male\",\n" +
-                "    \"email\": \"%s\",\n" +
-                "    \"status\": \"active\"\n" +
-                "}",email);
+        String email = String.format("%s@gmail.com", UUID.randomUUID());
+        String name = "Rama Ramakrishna";
+        String gender = "male";
+        String status = "active";
+
+        CreateUserRequestBody requestBody = new CreateUserRequestBody(name, gender, email, status);
 
         //Act
-        usersClient.createUser(body)
+        usersClient.createUser(requestBody)
                 .then()
                     .log().body()
                     .statusCode(201)
         //Assert
                 .body("data.id", Matchers.notNullValue())
                 .body("data.email", Matchers.equalTo(email))
-                .body("data.name", Matchers.equalTo("Tenali Ramakrishna"));
+                .body("data.name", Matchers.equalTo("Rama Ramakrishna"));
     }
 
     @Test
     public void shouldFemaleCreateUser(){
+
+        //Arrange
         String email = String.format("%s@gmail.com", UUID.randomUUID());
-        String body = String.format("{\n" +
-                "    \"name\": \"Priyanka Singh\",\n" +
-                "    \"gender\": \"female\",\n" +
-                "    \"email\": \"%s\",\n" +
-                "    \"status\": \"active\"\n" +
-                "}", email);
-        usersClient.createUser(body)
+        String name = "Priyanka Singh";
+        String gender = "female";
+        String status = "active";
+
+        CreateUserRequestBody requestBody = new CreateUserRequestBody(name, gender, email, status);
+
+        //Act
+        usersClient.createUser(requestBody)
                 .then()
                 .log().body()
                 .statusCode(201)
                 .body("data.id", Matchers.notNullValue())
                 .body("data.email", Matchers.equalTo(email))
-                .body("data.name", Matchers.equalTo("Priyanka Singh"));
+                .body("data.name", Matchers.equalTo(name));
     }
 
 }

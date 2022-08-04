@@ -23,6 +23,10 @@ dependencies {
     // Use TestNG framework, also requires calling test.useTestNG() below
     testImplementation 'org.testng:testng:7.4.0'
 
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.3'
+
+
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.0.1-jre'
     testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '5.1.1'
