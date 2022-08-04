@@ -20,11 +20,10 @@ public class CreateUserTests {
     public void shouldMaleCreateUser(){
         //Arrange
         String email = String.format("%s@gmail.com", UUID.randomUUID());
-        String name = "Rama Ramakrishna";
-        String gender = "male";
-        String status = "active";
 
-        CreateUserRequestBody requestBody = new CreateUserRequestBody(name, gender, email, status);
+        CreateUserRequestBody requestBody = CreateUserRequestBody.builder()
+                .name("Rama Ramakrishna").gender("male")
+                .email(email).status("active").build();
 
         //Act
         usersClient.createUser(requestBody)
@@ -42,12 +41,10 @@ public class CreateUserTests {
 
         //Arrange
         String email = String.format("%s@gmail.com", UUID.randomUUID());
-        String name = "Priyanka Singh";
-        String gender = "female";
-        String status = "active";
 
-        CreateUserRequestBody requestBody = new CreateUserRequestBody(name, gender, email, status);
-
+        CreateUserRequestBody requestBody = CreateUserRequestBody.builder()
+                .name("Priyanka Singh").gender("female")
+                .email(email).status("active").build();
         //Act
         usersClient.createUser(requestBody)
                 .then()
@@ -55,7 +52,7 @@ public class CreateUserTests {
                 .statusCode(201)
                 .body("data.id", Matchers.notNullValue())
                 .body("data.email", Matchers.equalTo(email))
-                .body("data.name", Matchers.equalTo(name));
+                .body("data.name", Matchers.equalTo("Priyanka Singh"));
     }
 
 }
